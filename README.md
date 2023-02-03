@@ -71,3 +71,17 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+# URLs
+
+## Microservicios
+
+https://aws.amazon.com/es/microservices/
+
+## NestJS
+
+https://nestjs.com/
+
+## Pruebas Unitarias
+
+https://learn.microsoft.com/es-es/dotnet/core/testing/unit-testing-best-practices
