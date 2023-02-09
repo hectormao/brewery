@@ -2,6 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const projectInfo = require('../package.json');
+
 describe('AppController', () => {
   let appController: AppController;
 
@@ -15,8 +18,10 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+    it('should return service', () => {
+      const result = appController.getHello();
+      expect(result.service).toBe(projectInfo.name);
+      expect(result.version).toBe(projectInfo.version);
     });
   });
 });

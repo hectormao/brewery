@@ -16,6 +16,17 @@ export class BreweryController {
     this.log.log(
       `Recibiendo solicitud de breweries page: ${page} per_page: ${pageSize}`,
     );
+
+    if (isNaN(page)) {
+      this.log.warn(`page param isn't number set the default value ${page}`);
+    }
+
+    if (isNaN(pageSize)) {
+      this.log.warn(
+        `pageSize param isn't number set the default value ${pageSize}`,
+      );
+    }
+
     const fixedPage = page && page >= 0 ? page : 0;
     const fixedPageSize = pageSize && pageSize > 0 ? pageSize : 10;
     const result: Brewery[] = await this.service.getPage(
