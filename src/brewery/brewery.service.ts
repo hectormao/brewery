@@ -27,12 +27,13 @@ export class BreweryService {
           Accept: 'application/json',
           'Accept-Encoding': '*',
         },
+        validateStatus: () => true,
       },
     );
+
     if (response.status !== HttpStatus.OK) {
       this.log.error(
-        `Respuesta desde Open Brewery DB con status diferente de 200`,
-        response,
+        `Respuesta desde Open Brewery DB con status diferente de 200 status: ${response.status}`,
       );
       throw new HttpException(response.data, response.status);
     }

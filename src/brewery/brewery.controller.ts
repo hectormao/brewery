@@ -1,4 +1,4 @@
-import { Controller, Get, Logger, Query } from '@nestjs/common';
+import { Controller, Get, HttpException, Logger, Query } from '@nestjs/common';
 import { Brewery } from 'src/types/brewery.types';
 import { BreweryService } from './brewery.service';
 
@@ -29,11 +29,15 @@ export class BreweryController {
 
     const fixedPage = page && page >= 0 ? page : 0;
     const fixedPageSize = pageSize && pageSize > 0 ? pageSize : 10;
-    const result: Brewery[] = await this.service.getPage(
-      fixedPage,
-      fixedPageSize,
-    );
-    this.log.log(`Respondiendo breweries cantidad: ${result.length}`);
-    return result;
+    try {
+      const result: Brewery[] = await this.service.getPage(
+        fixedPage,
+        fixedPageSize,
+      );
+      this.log.log(`Respondiendo breweries cantidad: ${result.length}`);
+      return result;
+    } catch (err) {
+      throw err;
+    }
   }
 }
