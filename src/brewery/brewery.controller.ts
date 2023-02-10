@@ -1,8 +1,17 @@
-import { Controller, Get, HttpException, Logger, Query } from '@nestjs/common';
+import {
+  CacheInterceptor,
+  CacheTTL,
+  Controller,
+  Get,
+  Logger,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common';
 import { Brewery } from 'src/types/brewery.types';
 import { BreweryService } from './brewery.service';
 
 @Controller('brewery')
+@UseInterceptors(CacheInterceptor)
 export class BreweryController {
   private readonly log: Logger = new Logger(BreweryController.name);
 
@@ -29,15 +38,11 @@ export class BreweryController {
 
     const fixedPage = page && page >= 0 ? page : 0;
     const fixedPageSize = pageSize && pageSize > 0 ? pageSize : 10;
-    try {
-      const result: Brewery[] = await this.service.getPage(
-        fixedPage,
-        fixedPageSize,
-      );
-      this.log.log(`Respondiendo breweries cantidad: ${result.length}`);
-      return result;
-    } catch (err) {
-      throw err;
-    }
+    const result: Brewery[] = await this.service.getPage(
+      fixedPage,
+      fixedPageSize,
+    );
+    this.log.log(`Respondiendo breweries cantidad: ${result.length}`);
+    return result;
   }
 }

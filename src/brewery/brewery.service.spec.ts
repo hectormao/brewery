@@ -1,6 +1,6 @@
 import { HttpModule, HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Brewery } from 'src/types/brewery.types';
 import { BreweryService } from './brewery.service';
