@@ -1,7 +1,13 @@
 import { HttpModule, HttpService } from '@nestjs/axios';
-import { HttpException, HttpStatus } from '@nestjs/common';
+import {
+  CacheModule,
+  CACHE_MANAGER,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Cache } from 'cache-manager';
 import { Brewery } from 'src/types/brewery.types';
 import { BreweryService } from './brewery.service';
 
@@ -73,10 +79,20 @@ describe('BreweryService', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [HttpModule, ConfigModule.forRoot()],
       providers: [BreweryService],
-    }).compile();
+    })
+      .useMocker((token) => {
+        if (token === CACHE_MANAGER) {
+          return {
+            get: jest.fn().mockResolvedValue(null),
+            set: jest.fn().mockResolvedValue(null),
+          };
+        }
+      })
+      .compile();
 
     service = module.get<BreweryService>(BreweryService);
     httpService = module.get<HttpService>(HttpService);
+    console.log('HELLO !!!');
   });
 
   it('should be defined', () => {
@@ -86,6 +102,7 @@ describe('BreweryService', () => {
   it('getPage Successfull', async () => {
     const pageSize = 3;
     const page = 0;
+
     jest.spyOn(httpService.axiosRef, 'get').mockImplementation(async (url) => {
       expect(url).toBe(
         `https://api.openbrewerydb.org/breweries?per_page=${pageSize}&page=${page}`,
@@ -103,6 +120,7 @@ describe('BreweryService', () => {
 
   it('getPage HttpService Failed', async () => {
     const testMessage = 'Test Error';
+
     jest.spyOn(httpService.axiosRef, 'get').mockImplementation(async () => {
       throw new HttpException(testMessage, HttpStatus.INTERNAL_SERVER_ERROR);
     });
@@ -117,6 +135,7 @@ describe('BreweryService', () => {
   it('getPage HttpService Replies with status code 400', async () => {
     const pageSize = 3;
     const page = 0;
+
     jest.spyOn(httpService.axiosRef, 'get').mockImplementation(async (url) => {
       expect(url).toBe(
         `https://api.openbrewerydb.org/breweries?per_page=${pageSize}&page=${page}`,

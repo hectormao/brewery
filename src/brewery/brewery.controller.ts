@@ -1,17 +1,8 @@
-import {
-  CacheInterceptor,
-  CacheTTL,
-  Controller,
-  Get,
-  Logger,
-  Query,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Controller, Get, Logger, Query } from '@nestjs/common';
 import { Brewery } from 'src/types/brewery.types';
 import { BreweryService } from './brewery.service';
 
 @Controller('brewery')
-@UseInterceptors(CacheInterceptor)
 export class BreweryController {
   private readonly log: Logger = new Logger(BreweryController.name);
 

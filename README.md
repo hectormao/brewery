@@ -89,3 +89,11 @@ https://nestjs.com/
 ## Pruebas Unitarias
 
 https://learn.microsoft.com/es-es/dotnet/core/testing/unit-testing-best-practices
+
+## REDIS URL
+
+https://github.com/lettuce-io/lettuce-core/wiki/Redis-URI-and-connection-details
+
+## CIRCUIT BREAKER
+
+https://www.npmjs.com/package/opossum

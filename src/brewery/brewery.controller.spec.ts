@@ -1,5 +1,5 @@
 import { HttpModule } from '@nestjs/axios';
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { CacheModule, HttpException, HttpStatus } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Brewery } from 'src/types/brewery.types';
@@ -30,7 +30,7 @@ describe('BreweryController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [HttpModule, ConfigModule.forRoot()],
+      imports: [HttpModule, ConfigModule.forRoot(), CacheModule.register()],
       controllers: [BreweryController],
       providers: [BreweryService],
     }).compile();
