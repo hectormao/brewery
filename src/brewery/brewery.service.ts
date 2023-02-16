@@ -37,6 +37,18 @@ export class BreweryService {
         this.callOpenbreweryService(page, peageSize),
       cbOptions,
     ).fallback(() => []);
+
+    this.breweryCB.on('failure', (error) => {
+      this.log.error('Brewery Circuit Breaker Failure', error.stack);
+    });
+
+    this.breweryCB.on('open', () => {
+      this.log.error('Brewery Circuit Breaker OPEN');
+    });
+
+    this.breweryCB.on('close', () => {
+      this.log.error('Brewery Circuit Breaker CLOSE');
+    });
   }
 
   async getPage(page: number, pageSize: number): Promise<Brewery[]> {
